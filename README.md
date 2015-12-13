@@ -22,7 +22,7 @@ You may also quick try the example project with
 
 ## Usage
 ```objective-c
-SFDraggableDialogView *dialogView = [[[NSBundle mainBundle] loadNibNamed:@"SFDraggableDialogView" owner:self options:nil] firstObject];
+    SFDraggableDialogView *dialogView = [[[NSBundle mainBundle] loadNibNamed:@"SFDraggableDialogView" owner:self options:nil] firstObject];
     dialogView.frame = self.view.bounds;
     dialogView.delegate = self;
     dialogView.photo = [UIImage imageNamed:@""];AttributedString alloc] initWithString:@"Round is over"];
