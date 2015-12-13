@@ -35,6 +35,14 @@ You may also quick try the example project with
     [self.view addSubview:dialogView];
 ```
 
+### SFDraggableDialogViewDelegate
+```objective-c
+- (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressDefaultButton:(UIButton *)defaultButton;
+- (void)draggingDidBegin:(SFDraggableDialogView *)dialogView;
+- (void)draggingDidEnd:(SFDraggableDialogView *)dialogView;
+- (void)draggableDialogViewDismissed:(SFDraggableDialogView *)dialogView;
+```
+
 ## Author
 This library is open-sourced by [Jakub Truhlar](http://kubatruhlar.cz).
     
