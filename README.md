@@ -25,7 +25,8 @@ You may also quick try the example project with
     SFDraggableDialogView *dialogView = [[[NSBundle mainBundle] loadNibNamed:@"SFDraggableDialogView" owner:self options:nil] firstObject];
     dialogView.frame = self.view.bounds;
     dialogView.delegate = self;
-    dialogView.photo = [UIImage imageNamed:@""];AttributedString alloc] initWithString:@"Round is over"];
+    dialogView.photo = [UIImage imageNamed:@""];
+    dialogView.titleText = [[AttributedString alloc] initWithString:@"Round is over"];
     dialogView.messageText = [[NSMutableAttributedString alloc] initWithString:@"You have won"];
     dialogView.defaultBtnText = [@"See results" uppercaseString];
     dialogView.cancelViewPosition = SFCancelViewPositionBottom;
