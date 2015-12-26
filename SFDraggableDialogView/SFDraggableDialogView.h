@@ -13,12 +13,21 @@
 @optional
 
 /**
- *  The bottom default button was pressed.
+ *  The bottom first button was pressed.
  *
  *  @param dialogView  Dialog view within the button was pressed.
  *  @param closeButton Reference of the pressed button.
  */
-- (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressDefaultButton:(UIButton *)defaultButton;
+- (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressFirstButton:(UIButton *)firstButton;
+
+
+/**
+ *  The bottom second button was pressed.
+ *
+ *  @param dialogView  Dialog view within the button was pressed.
+ *  @param closeButton Reference of the pressed button.
+ */
+- (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressSecondButton:(UIButton *)secondButton;
 
 /**
  *  Dialog view interactive dragging did begin.
@@ -48,6 +57,11 @@ typedef NS_ENUM(NSInteger, SFCancelViewPosition) {
     SFCancelViewPositionBottom
 };
 
+typedef NS_ENUM(NSInteger, SFContentViewType) {
+    SFContentViewTypeDefault = 0,
+    SFContentViewTypeCustom
+};
+
 @interface SFDraggableDialogView : UIView
 
 /**
@@ -66,19 +80,34 @@ typedef NS_ENUM(NSInteger, SFCancelViewPosition) {
 @property (nonatomic, strong) UIColor *dialogBackgroundColor;
 
 /**
- *  Background color of the default button. DEFAULT is a kind of green.
+ *  Background color of the first button. DEFAULT is a kind of green.
  */
-@property (nonatomic, strong) UIColor *defaultBtnBackgroundColor;
+@property (nonatomic, strong) UIColor *firstBtnBackgroundColor;
 
 /**
- *  Default button's text color. DEFAULT is white.
+ *  The first button's text color. DEFAULT is white.
  */
-@property (nonatomic, strong) UIColor *defaultBtnTextColor;
+@property (nonatomic, strong) UIColor *firstBtnTextColor;
 
 /**
- *  Default button's font. DEFAULT is Helvetica Neue 15.0 Bold.
+ *  The first button's font. DEFAULT is Helvetica Neue 15.0 Bold.
  */
-@property (nonatomic, strong) UIFont *defaultBtnFont;
+@property (nonatomic, strong) UIFont *firstBtnFont;
+
+/**
+ *  Background color of the second button. DEFAULT is a kind of green.
+ */
+@property (nonatomic, strong) UIColor *secondBtnBackgroundColor;
+
+/**
+ *  Second button's text color. DEFAULT is white.
+ */
+@property (nonatomic, strong) UIColor *secondBtnTextColor;
+
+/**
+ *  Second button's font. DEFAULT is Helvetica Neue 15.0 Bold.
+ */
+@property (nonatomic, strong) UIFont *secondBtnFont;
 
 /**
  *  Image for the dismissal button.
@@ -103,7 +132,12 @@ typedef NS_ENUM(NSInteger, SFCancelViewPosition) {
 /**
  *  Default button's text. DEFAULT is Accept.
  */
-@property (nonatomic, strong) NSString *defaultBtnText;
+@property (nonatomic, strong) NSString *firstBtnText;
+
+/**
+ *  Second button's text. DEFAULT is Cancel.
+ */
+@property (nonatomic, strong) NSString *secondBtnText;
 
 /**
  *  Text of the cancel arrow. Empty value will make it hidden and draggable dismissing will be disabled. DEFAULT is @"Cancel".
@@ -119,6 +153,11 @@ typedef NS_ENUM(NSInteger, SFCancelViewPosition) {
  *  The position of the cancel view and the direction in which the view can be dismissed by dragging. DEFAULT is Bottom.
  */
 @property (nonatomic, assign) SFCancelViewPosition cancelViewPosition;
+
+/**
+ *  The visible content view. Custom is blank, default has image and two labels. DEFAULT is Default.
+ */
+@property (nonatomic, assign) SFContentViewType contentViewType;
 
 /**
  *  Tint color of blur view that is behind the dialog view. DEFAULT is something between gray and black.
@@ -137,9 +176,19 @@ typedef NS_ENUM(NSInteger, SFCancelViewPosition) {
 @property (nonatomic, assign) bool backgroundShadow;
 
 /**
+ *  Should show the second button. DEFAULT is NO.
+ */
+@property (nonatomic, assign) bool showSecondBtn;
+
+/**
  *  Dialog view is draggable. DEFAULT is YES.
  */
 @property (nonatomic, assign, getter=isDraggable) bool draggable;
+
+/**
+ *  The custom content view of the contentViewTypeCustom type. Add any subview here.
+ */
+@property (weak, nonatomic) IBOutlet UIView *customView;
 
 @property (nonatomic, assign) id<SFDraggableDialogViewDelegate> delegate;
 

@@ -28,7 +28,7 @@ You may also quick try the example project with
     dialogView.photo = [UIImage imageNamed:@""];
     dialogView.titleText = [[AttributedString alloc] initWithString:@"Round is over"];
     dialogView.messageText = [[NSMutableAttributedString alloc] initWithString:@"You have won"];
-    dialogView.defaultBtnText = [@"See results" uppercaseString];
+    dialogView.firstBtnText = [@"See results" uppercaseString];
     dialogView.cancelViewPosition = SFCancelViewPositionBottom;
     dialogView.hideCloseButton = true;
     
@@ -37,11 +37,17 @@ You may also quick try the example project with
 
 ### SFDraggableDialogViewDelegate
 ```objective-c
-- (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressDefaultButton:(UIButton *)defaultButton;
+- (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressFirstButton:(UIButton *)firstButton;
+- (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressSecondButton:(UIButton *)secondButton;
 - (void)draggingDidBegin:(SFDraggableDialogView *)dialogView;
 - (void)draggingDidEnd:(SFDraggableDialogView *)dialogView;
 - (void)draggableDialogViewDismissed:(SFDraggableDialogView *)dialogView;
 ```
+
+### Custom content view
+There is `SFContentViewType` property that takes two values - Default and Custom. Default view has two labels and image from example. Use custom view for as a container for your subviews accessible through `customView` property.
+
+There is also `showSecondBtn` property.
 
 ## Author
 This library is open-sourced by [Jakub Truhlar](http://kubatruhlar.cz).

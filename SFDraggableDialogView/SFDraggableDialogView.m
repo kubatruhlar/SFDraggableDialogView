@@ -30,9 +30,11 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 @property (weak, nonatomic) IBOutlet UILabel *cancelArrowLblBottom;
 @property (weak, nonatomic) IBOutlet UIImageView *cancelArrowImageViewTop;
 @property (weak, nonatomic) IBOutlet UIImageView *cancelArrowImageViewBottom;
+@property (weak, nonatomic) IBOutlet UIView *defaultView;
 
 // Buttons
-@property (weak, nonatomic) IBOutlet UIButton *defaultBtn;
+@property (weak, nonatomic) IBOutlet UIButton *firstBtn;
+@property (weak, nonatomic) IBOutlet UIButton *secondBtn;
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 
 // UIDynamics
@@ -43,9 +45,14 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 // Constraints
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dialogViewHeightCns;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dialogViewWidthCns;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *customViewVerticalOffsetCns;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *defaultViewVerticalOffsetCns;
 
-// Default button highlight handle
-- (IBAction)defaultBtnTouchDownEvent:(id)sender;
+// The first button highlight handle
+- (IBAction)firstBtnTouchDownEvent:(id)sender;
+
+// Second button highlight handle
+- (IBAction)secondBtnTouchDownEvent:(id)sender;
 
 @end
 
@@ -80,9 +87,15 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     self.backgroundShadow = true;
     self.hideCloseButton = false;
     self.cancelArrowText = [[NSMutableAttributedString alloc] initWithString:@"Cancel"];
-    self.defaultBtnText = [@"Accept" uppercaseString];
-    self.defaultBtnTextColor = [UIColor whiteColor];
+    self.firstBtnText = [@"Accept" uppercaseString];
+    self.firstBtnTextColor = [UIColor whiteColor];
+    self.secondBtnText = [@"Cancel" uppercaseString];
+    self.showSecondBtn = false;
+    self.secondBtnTextColor = [UIColor whiteColor];
     self.cancelViewPosition = SFCancelViewPositionBottom;
+    self.contentViewType = SFContentViewTypeDefault;
+    self.customView.hidden = true;
+    self.defaultView.hidden = false;
     self.size = CGSizeMake(270.0, 350.0);
 }
 
@@ -159,15 +172,15 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     }
 }
 
-- (void)highlightDefaultBtn:(bool)highlight {
+- (void)highlight:(bool)highlight btn:(UIButton *)button {
     if (highlight) {
         [UIView animateWithDuration:0.1 animations:^{
-            self.defaultBtn.alpha = 0.85;
+            button.alpha = 0.85;
         }];
         
     } else {
         [UIView animateWithDuration:0.1 animations:^{
-            self.defaultBtn.alpha = 1.0;
+            button.alpha = 1.0;
         }];
     }
 }
@@ -183,7 +196,8 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
         return;
     }
     
-    [self highlightDefaultBtn:false];
+    [self highlight:false btn:self.firstBtn];
+    [self highlight:false btn:self.secondBtn];
     
     static UIAttachmentBehavior *attachment;
     static CGPoint startCenter;
@@ -404,24 +418,44 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     }
 }
 
-- (void)setDefaultBtnText:(NSString *)defaultBtnText {
-    _defaultBtnText = defaultBtnText;
-    [self.defaultBtn setTitle:_defaultBtnText forState:UIControlStateNormal];
+- (void)setFirstBtnText:(NSString *)firstBtnText {
+    _firstBtnText = firstBtnText;
+    [self.firstBtn setTitle:_firstBtnText forState:UIControlStateNormal];
 }
 
-- (void)setDefaultBtnTextColor:(UIColor *)defaultBtnTextColor {
-    _defaultBtnTextColor = defaultBtnTextColor;
-    [self.defaultBtn setTitleColor:_defaultBtnTextColor forState:UIControlStateNormal];
+- (void)setFirstBtnTextColor:(UIColor *)firstBtnTextColor {
+    _firstBtnTextColor = firstBtnTextColor;
+    [self.firstBtn setTitleColor:_firstBtnTextColor forState:UIControlStateNormal];
 }
 
-- (void)setDefaultBtnFont:(UIFont *)defaultBtnFont {
-    _defaultBtnFont = defaultBtnFont;
-    self.defaultBtn.titleLabel.font = _defaultBtnFont;
+- (void)setFirstBtnFont:(UIFont *)firstBtnFont {
+    _firstBtnFont = firstBtnFont;
+    self.firstBtn.titleLabel.font = _firstBtnFont;
 }
 
-- (void)setDefaultBtnBackgroundColor:(UIColor *)defaultBtnBackgroundColor {
-    _defaultBtnBackgroundColor = defaultBtnBackgroundColor;
-    self.defaultBtn.backgroundColor = _defaultBtnBackgroundColor;
+- (void)setFirstBtnBackgroundColor:(UIColor *)firstBtnBackgroundColor {
+    _firstBtnBackgroundColor = firstBtnBackgroundColor;
+    self.firstBtn.backgroundColor = _firstBtnBackgroundColor;
+}
+
+- (void)setSecondBtnText:(NSString *)secondBtnText {
+    _secondBtnText = secondBtnText;
+    [self.secondBtn setTitle:_secondBtnText forState:UIControlStateNormal];
+}
+
+- (void)setSecondBtnBackgroundColor:(UIColor *)secondBtnBackgroundColor {
+    _secondBtnBackgroundColor = secondBtnBackgroundColor;
+    self.secondBtn.backgroundColor = _secondBtnBackgroundColor;
+}
+
+- (void)setSecondBtnFont:(UIFont *)secondBtnFont {
+    _secondBtnFont = secondBtnFont;
+    self.secondBtn.titleLabel.font = _secondBtnFont;
+}
+
+- (void)setSecondBtnTextColor:(UIColor *)secondBtnTextColor {
+    _secondBtnTextColor = secondBtnTextColor;
+    [self.secondBtn setTitleColor:_secondBtnTextColor forState:UIControlStateNormal];
 }
 
 - (void)setCancelViewPosition:(SFCancelViewPosition)cancelViewPosition {
@@ -440,6 +474,18 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     } else {
         _cancelViewTop.hidden = true;
         _cancelViewBottom.hidden = false;
+    }
+}
+
+- (void)setContentViewType:(SFContentViewType)contentViewType {
+    _contentViewType = contentViewType;
+    if (_contentViewType == SFContentViewTypeDefault) {
+        self.defaultView.hidden = false;
+        self.customView.hidden = true;
+        
+    } else {
+        self.defaultView.hidden = true;
+        self.customView.hidden = false;
     }
 }
 
@@ -470,11 +516,35 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     _blurView.contentView.backgroundColor = [blurViewTintColor colorWithAlphaComponent:0.5];
 }
 
+- (void)setShowSecondBtn:(bool)showSecondBtn {
+    _showSecondBtn = showSecondBtn;
+    
+    if (showSecondBtn) {
+        self.customViewVerticalOffsetCns.constant = self.firstBtn.frame.size.height;
+        self.defaultViewVerticalOffsetCns.constant = self.firstBtn.frame.size.height;
+        self.secondBtn.hidden = false;
+        
+    } else {
+        self.customViewVerticalOffsetCns.constant = 0.0;
+        self.defaultViewVerticalOffsetCns.constant = 0.0;
+        self.secondBtn.hidden = true;
+    }
+    
+    [self layoutIfNeeded];
+}
+
 #pragma mark - Actions
-- (IBAction)defaultBtnPressed:(id)sender {
-    [self highlightDefaultBtn:false];
-    if ([self.delegate respondsToSelector:@selector(draggableDialogView:didPressDefaultButton:)]) {
-        [self.delegate draggableDialogView:self didPressDefaultButton:self.defaultBtn];
+- (IBAction)firstBtnPressed:(id)sender {
+    [self highlight:false btn:self.firstBtn];
+    if ([self.delegate respondsToSelector:@selector(draggableDialogView:didPressFirstButton:)]) {
+        [self.delegate draggableDialogView:self didPressFirstButton:self.firstBtn];
+    }
+}
+
+- (IBAction)secondBtnPressed:(id)sender {
+    [self highlight:false btn:self.secondBtn];
+    if ([self.delegate respondsToSelector:@selector(draggableDialogView:didPressSecondButton:)]) {
+        [self.delegate draggableDialogView:self didPressSecondButton:self.secondBtn];
     }
 }
 
@@ -483,8 +553,12 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     [self dismissWithFadeOut:true];
 }
 
-- (IBAction)defaultBtnTouchDownEvent:(id)sender {
-    [self highlightDefaultBtn:true];
+- (IBAction)firstBtnTouchDownEvent:(id)sender {
+    [self highlight:true btn:self.firstBtn];
+}
+
+- (IBAction)secondBtnTouchDownEvent:(id)sender {
+    [self highlight:true btn:self.secondBtn];
 }
 
 @end

@@ -29,9 +29,10 @@
     dialogView.delegate = self;
     dialogView.titleText = [[NSMutableAttributedString alloc] initWithString:@"Round is over"];
     dialogView.messageText = [self exampleAttributeString];
-    dialogView.defaultBtnText = [@"See results" uppercaseString];
+    dialogView.firstBtnText = [@"See results" uppercaseString];
     dialogView.cancelViewPosition = SFCancelViewPositionBottom;
     dialogView.hideCloseButton = true;
+    dialogView.showSecondBtn = false;
     
     [self.view addSubview:dialogView];
 }
@@ -44,8 +45,8 @@
 }
 
 #pragma mark - SFDraggableDialogViewDelegate
-- (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressDefaultButton:(UIButton *)defaultButton {
-    NSLog(@"Default button pressed");
+- (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressFirstButton:(UIButton *)firstButton {
+    NSLog(@"The first button pressed");
 }
 
 - (void)draggingDidBegin:(SFDraggableDialogView *)dialogView {
