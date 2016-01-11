@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SFDraggableDialogView"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "Display the beautiful dialog view with realistic physics behavior."
 
   s.description  = <<-DESC
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.author    = "Jakub Truhlar"
   s.social_media_url   = "http://kubatruhlar.cz"
   s.platform     = :ios, "8.0"
-  s.source       = { :git => "https://github.com/kubatru/SFDraggableDialogView.git", :tag => "1.0.3" }
+  s.source       = { :git => "https://github.com/kubatru/SFDraggableDialogView.git", :tag => "1.0.4" }
   s.source_files  = "SFDraggableDialogView/*"
   s.framework  = "UIKit"
   s.requires_arc = true

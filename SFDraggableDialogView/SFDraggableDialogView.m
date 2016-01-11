@@ -82,10 +82,7 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     
     // Cancel arror
     [self showCancelArrow:true];
-}
-
-- (void)layoutSubviews {
-    // Layout photo's image view again
+    
     self.photo = _photo;
 }
 
@@ -433,7 +430,6 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     self.shadowView.layer.shadowOpacity = _backgroundShadowOpacity;
     self.shadowView.layer.shadowRadius = 10.0;
     self.shadowView.layer.shadowOffset = CGSizeZero;
-    self.shadowView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.dialogView.bounds cornerRadius:_cornerRadius].CGPath;
     self.shadowView.layer.shouldRasterize = true;
     self.shadowView.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
