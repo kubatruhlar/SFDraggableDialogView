@@ -33,6 +33,8 @@
     dialogView.cancelViewPosition = SFCancelViewPositionBottom;
     dialogView.hideCloseButton = true;
     dialogView.showSecondBtn = false;
+    dialogView.firstBtnBackgroundColor = [UIColor colorWithRed:0.230 green:0.777 blue:0.316 alpha:1.000];
+    [dialogView createBlurBackgroundWithImage:[self jt_imageWithView:self.view] tintColor:[[UIColor blackColor] colorWithAlphaComponent:0.35] blurRadius:60.0];
     
     [self.view addSubview:dialogView];
 }
@@ -59,6 +61,17 @@
 
 - (void)draggableDialogViewDismissed:(SFDraggableDialogView *)dialogView {
     NSLog(@"Dismissed");
+}
+
+#pragma mark - Snapshot
+- (UIImage *)jt_imageWithView:(UIView *)view {
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, scale);
+    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:true];
+    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 @end

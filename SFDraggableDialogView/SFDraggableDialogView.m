@@ -6,6 +6,7 @@
 //
 
 #import "SFDraggableDialogView.h"
+#import "UIImage+ImageEffects.h"
 
 typedef NS_ENUM(NSInteger, SFPanDirection) {
     SFPanDirectionTop = 0,
@@ -19,8 +20,7 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 @property (weak, nonatomic) IBOutlet UIView *shadowView;
 @property (weak, nonatomic) IBOutlet UIView *cancelViewTop;
 @property (weak, nonatomic) IBOutlet UIView *cancelViewBottom;
-@property (weak, nonatomic) IBOutlet UIView *blurViewContainer;
-@property (weak, nonatomic) IBOutlet UIVisualEffectView *blurView;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
 // Content
 @property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
@@ -69,6 +69,10 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     
     // Default initialization
     [self defaultSetup];
+}
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
     
     // Pop animation
     [self pop];
@@ -78,6 +82,11 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     
     // Cancel arror
     [self showCancelArrow:true];
+}
+
+- (void)layoutSubviews {
+    // Layout photo's image view again
+    self.photo = _photo;
 }
 
 - (void)defaultSetup {
@@ -151,6 +160,10 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 }
 
 - (void)dismiss {
+    self.cancelArrowImageViewBottom.alpha = 0.0;
+    self.cancelArrowImageViewTop.alpha = 0.0;
+    self.cancelArrowLblBottom.alpha = 0.0;
+    self.cancelArrowLblTop.alpha = 0.0;
     [UIView animateWithDuration:0.4 animations:^{
         self.alpha = 0.0;
         
@@ -161,27 +174,37 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 
 - (void)showBlurView:(bool)show {
     if (show) {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.blurViewContainer.alpha = 1.0;
+        [UIView animateWithDuration:0.1 animations:^{
+            self.backgroundImageView.alpha = 1.0;
         }];
         
     } else {
         [UIView animateWithDuration:0.4 animations:^{
-        self.blurViewContainer.alpha = 0.0;
-    }];
+            self.backgroundImageView.alpha = 0.0;
+        }];
     }
 }
 
 - (void)highlight:(bool)highlight btn:(UIButton *)button {
+    UIColor *btnDefaultColor = button.backgroundColor;
+    if ([button isEqual:self.firstBtn]) {
+        btnDefaultColor = self.firstBtnBackgroundColor;
+        
+    } else if ([button isEqual:self.secondBtn]) {
+        btnDefaultColor = self.secondBtnBackgroundColor;
+    }
+    
     if (highlight) {
-        [UIView animateWithDuration:0.1 animations:^{
-            button.alpha = 0.85;
-        }];
+        CGFloat r, g, b, a;
+        if ([btnDefaultColor getRed:&r green:&g blue:&b alpha:&a]) {
+            button.backgroundColor = [UIColor colorWithRed:MAX(r - 0.05, 0.0) green:MAX(g - 0.05, 0.0) blue:MAX(b - 0.05, 0.0) alpha:a];
+        }
         
     } else {
-        [UIView animateWithDuration:0.1 animations:^{
-            button.alpha = 1.0;
-        }];
+        CGFloat r, g, b, a;
+        if ([btnDefaultColor getRed:&r green:&g blue:&b alpha:&a]) {
+            button.backgroundColor = [UIColor colorWithRed:MIN(r + 0.05, 1.0) green:MIN(g + 0.05, 1.0) blue:MIN(b + 0.05, 1.0) alpha:a];
+        }
     }
 }
 
@@ -337,11 +360,12 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 
 #pragma mark - Pop animation
 - (void)popAnimationForView:(UIView *)view withDuration:(CGFloat)duration {
+    view.transform = CGAffineTransformMakeScale(0.9, 0.9);
     [UIView animateWithDuration:duration * 0.5 animations:^{
-        view.transform = CGAffineTransformMakeScale(1.05, 1.05);
+        view.transform = CGAffineTransformMakeScale(1.1, 1.1);
     }];
     [UIView animateWithDuration:duration * 0.35 delay:duration * 0.5 options:UIViewAnimationOptionCurveLinear animations:^{
-        view.transform = CGAffineTransformMakeScale(0.98, 0.98);
+        view.transform = CGAffineTransformMakeScale(0.9, 0.9);
     } completion:nil];
     [UIView animateWithDuration:duration * 0.15 delay:duration * 0.85 options:UIViewAnimationOptionCurveLinear animations:^{
         view.transform = CGAffineTransformMakeScale(1.0, 1.0);
@@ -354,7 +378,7 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 - (void)pop {
     [UIView animateWithDuration:0.2 animations:^{
         [self popAnimationForView:self.shadowView withDuration:0.2];
-    } completion:nil];
+    }];
 }
 
 #pragma mark - Setters
@@ -412,7 +436,7 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     self.shadowView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.dialogView.bounds cornerRadius:_cornerRadius].CGPath;
     self.shadowView.layer.shouldRasterize = true;
     self.shadowView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-
+    
     if (!backgroundShadow) {
         self.shadowView.layer.shadowOpacity = 0.0;
     }
@@ -497,8 +521,14 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
         _cancelViewTop.hidden = true;
         
     } else {
-        _cancelViewBottom.hidden = false;
-        _cancelViewTop.hidden = false;
+        if (_cancelViewPosition == SFCancelViewPositionTop) {
+            _cancelViewBottom.hidden = true;
+            _cancelViewTop.hidden = false;
+            
+        } else {
+            _cancelViewTop.hidden = true;
+            _cancelViewBottom.hidden = false;
+        }
         [self cancelViewAlpha:1.0];
         _cancelArrowLblBottom.attributedText = cancelArrowText;
         _cancelArrowLblTop.attributedText = cancelArrowText;
@@ -511,9 +541,8 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     _cancelArrowImageViewTop.image = _cancelArrowImage;
 }
 
-- (void)setBlurViewTintColor:(UIColor *)blurViewTintColor {
-    _blurViewTintColor = blurViewTintColor;
-    _blurView.contentView.backgroundColor = [blurViewTintColor colorWithAlphaComponent:0.5];
+- (void)createBlurBackgroundWithImage:(UIImage *)backgroundImage tintColor:(UIColor *)tintColor blurRadius:(CGFloat)blurRadius {
+    self.backgroundImageView.image = [backgroundImage applyBlurWithRadius:blurRadius tintColor:tintColor saturationDeltaFactor:0.5 maskImage:nil];
 }
 
 - (void)setShowSecondBtn:(bool)showSecondBtn {

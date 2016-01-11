@@ -20,7 +20,6 @@
  */
 - (void)draggableDialogView:(SFDraggableDialogView *)dialogView didPressFirstButton:(UIButton *)firstButton;
 
-
 /**
  *  The bottom second button was pressed.
  *
@@ -81,6 +80,7 @@ typedef NS_ENUM(NSInteger, SFContentViewType) {
 
 /**
  *  Background color of the first button. DEFAULT is a kind of green.
+ *  MUST BE set, otherwise the button's highlight WILL NOT be working.
  */
 @property (nonatomic, strong) UIColor *firstBtnBackgroundColor;
 
@@ -96,6 +96,7 @@ typedef NS_ENUM(NSInteger, SFContentViewType) {
 
 /**
  *  Background color of the second button. DEFAULT is a kind of green.
+ *  MUST BE set, otherwise the button's highlight WILL NOT be working.
  */
 @property (nonatomic, strong) UIColor *secondBtnBackgroundColor;
 
@@ -160,12 +161,6 @@ typedef NS_ENUM(NSInteger, SFContentViewType) {
 @property (nonatomic, assign) SFContentViewType contentViewType;
 
 /**
- *  Tint color of blur view that is behind the dialog view. DEFAULT is something between gray and black.
- *  Automatically turns alpha to 0.5.
- */
-@property (nonatomic, strong) UIColor *blurViewTintColor;
-
-/**
  *  Should hide close button. DEFAULT is NO.
  */
 @property (nonatomic, assign) bool hideCloseButton;
@@ -191,5 +186,21 @@ typedef NS_ENUM(NSInteger, SFContentViewType) {
 @property (weak, nonatomic) IBOutlet UIView *customView;
 
 @property (nonatomic, assign) id<SFDraggableDialogViewDelegate> delegate;
+
+/**
+ *  Dismiss the dialog view.
+ *
+ *  @param fadeOut Fade out animation.
+ */
+- (void)dismissWithFadeOut:(bool)fadeOut;
+
+/**
+ *  Create the background image view that will be placed behind the dialog view.
+ *
+ *  @param backgroundImage      Blurred image.
+ *  @param tintColor  Tint color of the blurred image view.
+ *  @param blurRadius Blur radius of the blurred image view.
+ */
+- (void)createBlurBackgroundWithImage:(UIImage *)backgroundImage tintColor:(UIColor *)tintColor blurRadius:(CGFloat)blurRadius;
 
 @end

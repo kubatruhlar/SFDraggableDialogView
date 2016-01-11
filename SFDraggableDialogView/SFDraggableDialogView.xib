@@ -12,28 +12,9 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AoW-ga-pgr">
+                <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LlG-KW-I5F">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <subviews>
-                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AV8-Tk-fy0">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="JJ5-NX-KgM">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.43895912170410156" green="0.4390261173248291" blue="0.43894442915916443" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <blurEffect style="light"/>
-                        </visualEffectView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="AV8-Tk-fy0" secondAttribute="bottom" id="2ZU-CD-AWl"/>
-                        <constraint firstItem="AV8-Tk-fy0" firstAttribute="top" secondItem="AoW-ga-pgr" secondAttribute="top" id="eIw-dc-rfL"/>
-                        <constraint firstAttribute="trailing" secondItem="AV8-Tk-fy0" secondAttribute="trailing" id="tdy-cA-3Bi"/>
-                        <constraint firstItem="AV8-Tk-fy0" firstAttribute="leading" secondItem="AoW-ga-pgr" secondAttribute="leading" id="tsC-Ab-39g"/>
-                    </constraints>
-                </view>
+                </imageView>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jvZ-Vs-W6z">
                     <rect key="frame" x="25" y="109" width="270" height="350"/>
                     <subviews>
@@ -124,7 +105,7 @@
                                         <constraint firstAttribute="height" constant="50" id="HRX-5e-Jg3"/>
                                     </constraints>
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <state key="normal" image="icCross"/>
+                                    <state key="normal" image="icCross.png"/>
                                     <connections>
                                         <action selector="closeBtnPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="l8a-Ds-eMV"/>
                                     </connections>
@@ -283,21 +264,20 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="jvZ-Vs-W6z" firstAttribute="top" secondItem="fgb-nR-XZv" secondAttribute="bottom" constant="10" id="1Td-ly-ynl"/>
+                <constraint firstItem="LlG-KW-I5F" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="39E-DE-kdw"/>
                 <constraint firstItem="fgb-nR-XZv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="4EJ-nA-2zu"/>
-                <constraint firstAttribute="bottom" secondItem="AoW-ga-pgr" secondAttribute="bottom" id="CT9-p2-Aee"/>
                 <constraint firstItem="jvZ-Vs-W6z" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="FwL-qj-myZ"/>
                 <constraint firstItem="jvZ-Vs-W6z" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="IRm-pC-zCq"/>
+                <constraint firstAttribute="trailing" secondItem="LlG-KW-I5F" secondAttribute="trailing" id="T8y-Se-Yx4"/>
+                <constraint firstItem="LlG-KW-I5F" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ydt-X2-hJd"/>
                 <constraint firstItem="RCg-fw-XMM" firstAttribute="top" secondItem="jvZ-Vs-W6z" secondAttribute="bottom" constant="10" id="agP-P7-m8V"/>
-                <constraint firstItem="AoW-ga-pgr" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ka2-am-Wwu"/>
-                <constraint firstItem="AoW-ga-pgr" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wBm-MH-6JZ"/>
+                <constraint firstAttribute="bottom" secondItem="LlG-KW-I5F" secondAttribute="bottom" id="qUt-XL-KVu"/>
                 <constraint firstItem="RCg-fw-XMM" firstAttribute="centerX" secondItem="jvZ-Vs-W6z" secondAttribute="centerX" id="waX-dw-1Ct"/>
-                <constraint firstAttribute="trailing" secondItem="AoW-ga-pgr" secondAttribute="trailing" id="xTZ-4D-hKE"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>
-                <outlet property="blurView" destination="AV8-Tk-fy0" id="mIO-Uq-dOR"/>
-                <outlet property="blurViewContainer" destination="AoW-ga-pgr" id="ZP2-hM-XAN"/>
+                <outlet property="backgroundImageView" destination="LlG-KW-I5F" id="ECd-Xd-IPa"/>
                 <outlet property="cancelArrowImageViewBottom" destination="432-a0-uCQ" id="QGe-CS-2oS"/>
                 <outlet property="cancelArrowImageViewTop" destination="i8P-WS-7R6" id="nZT-W8-UPg"/>
                 <outlet property="cancelArrowLblBottom" destination="NDI-i4-qwK" id="jZV-uM-wnc"/>
@@ -319,12 +299,12 @@
                 <outlet property="shadowView" destination="jvZ-Vs-W6z" id="gQE-De-ZrN"/>
                 <outlet property="titleLbl" destination="q1d-ey-QLn" id="sYP-sX-0ef"/>
             </connections>
-            <point key="canvasLocation" x="-779" y="364"/>
+            <point key="canvasLocation" x="-1238" y="303"/>
         </view>
     </objects>
     <resources>
         <image name="icArrow" width="9" height="6"/>
         <image name="icArrowTop" width="9" height="6"/>
-        <image name="icCross" width="27" height="27"/>
+        <image name="icCross.png" width="27" height="27"/>
     </resources>
 </document>

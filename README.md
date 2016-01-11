@@ -24,13 +24,16 @@ You may also quick try the example project with
 ```objective-c
     SFDraggableDialogView *dialogView = [[[NSBundle mainBundle] loadNibNamed:@"SFDraggableDialogView" owner:self options:nil] firstObject];
     dialogView.frame = self.view.bounds;
+    dialogView.photo = [UIImage imageNamed:@"face"];
     dialogView.delegate = self;
-    dialogView.photo = [UIImage imageNamed:@""];
-    dialogView.titleText = [[AttributedString alloc] initWithString:@"Round is over"];
-    dialogView.messageText = [[NSMutableAttributedString alloc] initWithString:@"You have won"];
+    dialogView.titleText = [[NSMutableAttributedString alloc] initWithString:@"Round is over"];
+    dialogView.messageText = [self exampleAttributeString];
     dialogView.firstBtnText = [@"See results" uppercaseString];
     dialogView.cancelViewPosition = SFCancelViewPositionBottom;
     dialogView.hideCloseButton = true;
+    dialogView.showSecondBtn = false;
+    dialogView.firstBtnBackgroundColor = [UIColor colorWithRed:0.230 green:0.777 blue:0.316 alpha:1.000];
+    [dialogView createBlurBackgroundWithImage:[self jt_imageWithView:self.view] tintColor:[[UIColor blackColor] colorWithAlphaComponent:0.35] blurRadius:60.0];
     
     [self.view addSubview:dialogView];
 ```
@@ -48,6 +51,8 @@ You may also quick try the example project with
 There is `SFContentViewType` property that takes two values - Default and Custom. Default view has two labels and image from example. Use custom view for as a container for your subviews accessible through `customView` property.
 
 There is also `showSecondBtn` property.
+
+Library uses Apple’s category for UIImage blur located in resources.
 
 ## Author
 This library is open-sourced by [Jakub Truhlar](http://kubatruhlar.cz).
