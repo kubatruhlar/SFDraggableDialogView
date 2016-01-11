@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3BEFE3171C43B4A40000FAE9 /* icCross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEFE3131C43B4A40000FAE9 /* icCross@2x.png */; };
-		3BEFE3181C43B4A40000FAE9 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEFE3161C43B4A40000FAE9 /* UIImage+ImageEffects.m */; };
+		3BED8B861C43C61A00B28C87 /* icCross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BED8B831C43C61A00B28C87 /* icCross@2x.png */; };
+		3BED8B871C43C61A00B28C87 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BED8B851C43C61A00B28C87 /* UIImage+ImageEffects.m */; };
 		3BFEB7881C1A38F60003BD0D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFEB7871C1A38F60003BD0D /* main.m */; };
 		3BFEB78B1C1A38F60003BD0D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFEB78A1C1A38F60003BD0D /* AppDelegate.m */; };
 		3BFEB78E1C1A38F60003BD0D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFEB78D1C1A38F60003BD0D /* ViewController.m */; };
@@ -20,9 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3BEFE3131C43B4A40000FAE9 /* icCross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icCross@2x.png"; sourceTree = "<group>"; };
-		3BEFE3151C43B4A40000FAE9 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
-		3BEFE3161C43B4A40000FAE9 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		3BED8B831C43C61A00B28C87 /* icCross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icCross@2x.png"; sourceTree = "<group>"; };
+		3BED8B841C43C61A00B28C87 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		3BED8B851C43C61A00B28C87 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		3BFEB7831C1A38F60003BD0D /* SFDraggableDialogView Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SFDraggableDialogView Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BFEB7871C1A38F60003BD0D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3BFEB7891C1A38F60003BD0D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -49,24 +49,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3BEFE3121C43B4A40000FAE9 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				3BEFE3131C43B4A40000FAE9 /* icCross@2x.png */,
-				3BEFE3141C43B4A40000FAE9 /* UIImage+ImageEffects */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		3BEFE3141C43B4A40000FAE9 /* UIImage+ImageEffects */ = {
-			isa = PBXGroup;
-			children = (
-				3BEFE3151C43B4A40000FAE9 /* UIImage+ImageEffects.h */,
-				3BEFE3161C43B4A40000FAE9 /* UIImage+ImageEffects.m */,
-			);
-			path = "UIImage+ImageEffects";
-			sourceTree = "<group>";
-		};
 		3BFEB77A1C1A38F60003BD0D = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +96,9 @@
 				3BFEB79E1C1A39160003BD0D /* SFDraggableDialogView.h */,
 				3BFEB79F1C1A39160003BD0D /* SFDraggableDialogView.m */,
 				3BFEB7A11C1A39220003BD0D /* SFDraggableDialogView.xib */,
-				3BEFE3121C43B4A40000FAE9 /* Resources */,
+				3BED8B831C43C61A00B28C87 /* icCross@2x.png */,
+				3BED8B841C43C61A00B28C87 /* UIImage+ImageEffects.h */,
+				3BED8B851C43C61A00B28C87 /* UIImage+ImageEffects.m */,
 			);
 			name = SFDraggableDialogView;
 			path = ../SFDraggableDialogView;
@@ -180,8 +164,8 @@
 				3BFEB7961C1A38F60003BD0D /* LaunchScreen.storyboard in Resources */,
 				3BFEB7931C1A38F60003BD0D /* Assets.xcassets in Resources */,
 				3BFEB7911C1A38F60003BD0D /* Main.storyboard in Resources */,
+				3BED8B861C43C61A00B28C87 /* icCross@2x.png in Resources */,
 				3BFEB7A21C1A39220003BD0D /* SFDraggableDialogView.xib in Resources */,
-				3BEFE3171C43B4A40000FAE9 /* icCross@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BFEB78E1C1A38F60003BD0D /* ViewController.m in Sources */,
-				3BEFE3181C43B4A40000FAE9 /* UIImage+ImageEffects.m in Sources */,
+				3BED8B871C43C61A00B28C87 /* UIImage+ImageEffects.m in Sources */,
 				3BFEB78B1C1A38F60003BD0D /* AppDelegate.m in Sources */,
 				3BFEB7881C1A38F60003BD0D /* main.m in Sources */,
 				3BFEB7A01C1A39160003BD0D /* SFDraggableDialogView.m in Sources */,

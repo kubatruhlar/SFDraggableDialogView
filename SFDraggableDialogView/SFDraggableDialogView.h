@@ -74,6 +74,11 @@ typedef NS_ENUM(NSInteger, SFContentViewType) {
 @property (nonatomic, assign) CGFloat cornerRadius;
 
 /**
+ *  Opacity (between 0.0 and 1.0) of the dialog's shadow. DEFAULT is 0.3
+ */
+@property (nonatomic, assign) CGFloat backgroundShadowOpacity;
+
+/**
  *  Background color of the dialog. DEFAULT is White.
  */
 @property (nonatomic, strong) UIColor *dialogBackgroundColor;
@@ -164,11 +169,6 @@ typedef NS_ENUM(NSInteger, SFContentViewType) {
  *  Should hide close button. DEFAULT is NO.
  */
 @property (nonatomic, assign) bool hideCloseButton;
-
-/**
- *  Should show shadow behind the dialog view. DEFAULT is YES.
- */
-@property (nonatomic, assign) bool backgroundShadow;
 
 /**
  *  Should show the second button. DEFAULT is NO.

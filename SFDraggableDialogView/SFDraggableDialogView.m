@@ -93,7 +93,7 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     self.cornerRadius = 5.0;
     self.dialogBackgroundColor = [UIColor whiteColor];
     self.draggable = true;
-    self.backgroundShadow = true;
+    self.backgroundShadowOpacity = 0.3;
     self.hideCloseButton = false;
     self.cancelArrowText = [[NSMutableAttributedString alloc] initWithString:@"Cancel"];
     self.firstBtnText = [@"Accept" uppercaseString];
@@ -426,20 +426,16 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     self.closeBtn.hidden = hideCloseButton;
 }
 
-- (void)setBackgroundShadow:(bool)backgroundShadow {
-    _backgroundShadow = backgroundShadow;
+- (void)setBackgroundShadowOpacity:(CGFloat)backgroundShadowOpacity {
+    _backgroundShadowOpacity = backgroundShadowOpacity;
     
     self.shadowView.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.shadowView.layer.shadowOpacity = 0.2;
+    self.shadowView.layer.shadowOpacity = _backgroundShadowOpacity;
     self.shadowView.layer.shadowRadius = 10.0;
     self.shadowView.layer.shadowOffset = CGSizeZero;
     self.shadowView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.dialogView.bounds cornerRadius:_cornerRadius].CGPath;
     self.shadowView.layer.shouldRasterize = true;
     self.shadowView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    
-    if (!backgroundShadow) {
-        self.shadowView.layer.shadowOpacity = 0.0;
-    }
 }
 
 - (void)setFirstBtnText:(NSString *)firstBtnText {
