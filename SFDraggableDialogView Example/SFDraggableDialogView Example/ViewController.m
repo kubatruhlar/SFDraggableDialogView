@@ -30,9 +30,12 @@
     dialogView.titleText = [[NSMutableAttributedString alloc] initWithString:@"Round is over"];
     dialogView.messageText = [self exampleAttributeString];
     dialogView.firstBtnText = [@"See results" uppercaseString];
-    dialogView.cancelViewPosition = SFCancelViewPositionBottom;
+    dialogView.dialogBackgroundColor = [UIColor whiteColor];
+    dialogView.cornerRadius = 8.0;
+    dialogView.backgroundShadowOpacity = 0.2;
     dialogView.hideCloseButton = true;
     dialogView.showSecondBtn = false;
+    dialogView.contentViewType = SFContentViewTypeDefault;
     dialogView.firstBtnBackgroundColor = [UIColor colorWithRed:0.230 green:0.777 blue:0.316 alpha:1.000];
     [dialogView createBlurBackgroundWithImage:[self jt_imageWithView:self.view] tintColor:[[UIColor blackColor] colorWithAlphaComponent:0.35] blurRadius:60.0];
     
@@ -57,6 +60,10 @@
 
 - (void)draggingDidEnd:(SFDraggableDialogView *)dialogView {
     NSLog(@"Dragging did end");
+}
+
+- (void)draggableDialogViewWillDismiss:(SFDraggableDialogView *)dialogView {
+    NSLog(@"Will be dismissed");
 }
 
 - (void)draggableDialogViewDismissed:(SFDraggableDialogView *)dialogView {

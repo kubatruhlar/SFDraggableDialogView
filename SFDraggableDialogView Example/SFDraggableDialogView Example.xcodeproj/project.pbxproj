@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3BED8B861C43C61A00B28C87 /* icCross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BED8B831C43C61A00B28C87 /* icCross@2x.png */; };
-		3BED8B871C43C61A00B28C87 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BED8B851C43C61A00B28C87 /* UIImage+ImageEffects.m */; };
+		3BB89FBE1C8CE78400C70E00 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB89FBD1C8CE78400C70E00 /* UIImage+ImageEffects.m */; };
+		3BB89FC71C8CE81D00C70E00 /* icArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB89FC01C8CE81D00C70E00 /* icArrow.png */; };
+		3BB89FC81C8CE81D00C70E00 /* icArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB89FC11C8CE81D00C70E00 /* icArrow@2x.png */; };
+		3BB89FC91C8CE81D00C70E00 /* icArrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB89FC21C8CE81D00C70E00 /* icArrow@3x.png */; };
+		3BB89FCA1C8CE81D00C70E00 /* icArrowTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB89FC31C8CE81D00C70E00 /* icArrowTop.png */; };
+		3BB89FCB1C8CE81D00C70E00 /* icArrowTop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB89FC41C8CE81D00C70E00 /* icArrowTop@2x.png */; };
+		3BB89FCC1C8CE81D00C70E00 /* icArrowTop@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB89FC51C8CE81D00C70E00 /* icArrowTop@3x.png */; };
+		3BB89FCD1C8CE81D00C70E00 /* icCross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB89FC61C8CE81D00C70E00 /* icCross@2x.png */; };
 		3BFEB7881C1A38F60003BD0D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFEB7871C1A38F60003BD0D /* main.m */; };
 		3BFEB78B1C1A38F60003BD0D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFEB78A1C1A38F60003BD0D /* AppDelegate.m */; };
 		3BFEB78E1C1A38F60003BD0D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFEB78D1C1A38F60003BD0D /* ViewController.m */; };
@@ -20,9 +26,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3BED8B831C43C61A00B28C87 /* icCross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icCross@2x.png"; sourceTree = "<group>"; };
-		3BED8B841C43C61A00B28C87 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
-		3BED8B851C43C61A00B28C87 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		3BB89FBC1C8CE78400C70E00 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		3BB89FBD1C8CE78400C70E00 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		3BB89FC01C8CE81D00C70E00 /* icArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icArrow.png; sourceTree = "<group>"; };
+		3BB89FC11C8CE81D00C70E00 /* icArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icArrow@2x.png"; sourceTree = "<group>"; };
+		3BB89FC21C8CE81D00C70E00 /* icArrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icArrow@3x.png"; sourceTree = "<group>"; };
+		3BB89FC31C8CE81D00C70E00 /* icArrowTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icArrowTop.png; sourceTree = "<group>"; };
+		3BB89FC41C8CE81D00C70E00 /* icArrowTop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icArrowTop@2x.png"; sourceTree = "<group>"; };
+		3BB89FC51C8CE81D00C70E00 /* icArrowTop@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icArrowTop@3x.png"; sourceTree = "<group>"; };
+		3BB89FC61C8CE81D00C70E00 /* icCross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icCross@2x.png"; sourceTree = "<group>"; };
 		3BFEB7831C1A38F60003BD0D /* SFDraggableDialogView Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SFDraggableDialogView Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BFEB7871C1A38F60003BD0D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3BFEB7891C1A38F60003BD0D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -49,6 +61,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3BB89FBB1C8CE78400C70E00 /* UIImage+ImageEffects */ = {
+			isa = PBXGroup;
+			children = (
+				3BB89FBC1C8CE78400C70E00 /* UIImage+ImageEffects.h */,
+				3BB89FBD1C8CE78400C70E00 /* UIImage+ImageEffects.m */,
+			);
+			path = "UIImage+ImageEffects";
+			sourceTree = "<group>";
+		};
+		3BB89FBF1C8CE81D00C70E00 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3BB89FC01C8CE81D00C70E00 /* icArrow.png */,
+				3BB89FC11C8CE81D00C70E00 /* icArrow@2x.png */,
+				3BB89FC21C8CE81D00C70E00 /* icArrow@3x.png */,
+				3BB89FC31C8CE81D00C70E00 /* icArrowTop.png */,
+				3BB89FC41C8CE81D00C70E00 /* icArrowTop@2x.png */,
+				3BB89FC51C8CE81D00C70E00 /* icArrowTop@3x.png */,
+				3BB89FC61C8CE81D00C70E00 /* icCross@2x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		3BFEB77A1C1A38F60003BD0D = {
 			isa = PBXGroup;
 			children = (
@@ -93,12 +128,11 @@
 		3BFEB79D1C1A390C0003BD0D /* SFDraggableDialogView */ = {
 			isa = PBXGroup;
 			children = (
+				3BB89FBB1C8CE78400C70E00 /* UIImage+ImageEffects */,
+				3BB89FBF1C8CE81D00C70E00 /* Resources */,
 				3BFEB79E1C1A39160003BD0D /* SFDraggableDialogView.h */,
 				3BFEB79F1C1A39160003BD0D /* SFDraggableDialogView.m */,
 				3BFEB7A11C1A39220003BD0D /* SFDraggableDialogView.xib */,
-				3BED8B831C43C61A00B28C87 /* icCross@2x.png */,
-				3BED8B841C43C61A00B28C87 /* UIImage+ImageEffects.h */,
-				3BED8B851C43C61A00B28C87 /* UIImage+ImageEffects.m */,
 			);
 			name = SFDraggableDialogView;
 			path = ../SFDraggableDialogView;
@@ -162,9 +196,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BFEB7961C1A38F60003BD0D /* LaunchScreen.storyboard in Resources */,
+				3BB89FCC1C8CE81D00C70E00 /* icArrowTop@3x.png in Resources */,
+				3BB89FCA1C8CE81D00C70E00 /* icArrowTop.png in Resources */,
+				3BB89FC71C8CE81D00C70E00 /* icArrow.png in Resources */,
 				3BFEB7931C1A38F60003BD0D /* Assets.xcassets in Resources */,
+				3BB89FC91C8CE81D00C70E00 /* icArrow@3x.png in Resources */,
 				3BFEB7911C1A38F60003BD0D /* Main.storyboard in Resources */,
-				3BED8B861C43C61A00B28C87 /* icCross@2x.png in Resources */,
+				3BB89FC81C8CE81D00C70E00 /* icArrow@2x.png in Resources */,
+				3BB89FCD1C8CE81D00C70E00 /* icCross@2x.png in Resources */,
+				3BB89FCB1C8CE81D00C70E00 /* icArrowTop@2x.png in Resources */,
 				3BFEB7A21C1A39220003BD0D /* SFDraggableDialogView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,7 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BFEB78E1C1A38F60003BD0D /* ViewController.m in Sources */,
-				3BED8B871C43C61A00B28C87 /* UIImage+ImageEffects.m in Sources */,
+				3BB89FBE1C8CE78400C70E00 /* UIImage+ImageEffects.m in Sources */,
 				3BFEB78B1C1A38F60003BD0D /* AppDelegate.m in Sources */,
 				3BFEB7881C1A38F60003BD0D /* main.m in Sources */,
 				3BFEB7A01C1A39160003BD0D /* SFDraggableDialogView.m in Sources */,

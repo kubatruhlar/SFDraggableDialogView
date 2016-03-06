@@ -18,16 +18,13 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 
 @property (weak, nonatomic) IBOutlet UIView *dialogView;
 @property (weak, nonatomic) IBOutlet UIView *shadowView;
-@property (weak, nonatomic) IBOutlet UIView *cancelViewTop;
 @property (weak, nonatomic) IBOutlet UIView *cancelViewBottom;
-@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
 // Content
 @property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLbl;
 @property (weak, nonatomic) IBOutlet UILabel *titleLbl;
-@property (weak, nonatomic) IBOutlet UILabel *cancelArrowLblTop;
-@property (weak, nonatomic) IBOutlet UILabel *cancelArrowLblBottom;
+@property (weak, nonatomic) IBOutlet UIButton *cancelArrowBtnBottom;
 @property (weak, nonatomic) IBOutlet UIImageView *cancelArrowImageViewTop;
 @property (weak, nonatomic) IBOutlet UIImageView *cancelArrowImageViewBottom;
 @property (weak, nonatomic) IBOutlet UIView *defaultView;
@@ -45,7 +42,10 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 // Constraints
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dialogViewHeightCns;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dialogViewWidthCns;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *customViewVerticalOffsetCns;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *dialogViewBottomCns;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *infoCustomViewViewVerticalOffsetCns;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *gameOverCustomViewVerticalOffsetCns;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pauseCustomViewVerticalOffsetCns;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *defaultViewVerticalOffsetCns;
 
 // The first button highlight handle
@@ -74,15 +74,16 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
-    // Pop animation
-    [self pop];
-    
     // Blur
     [self showBlurView:true];
+    
+    // Show animation
+    [self dropToCenter];
     
     // Cancel arror
     [self showCancelArrow:true];
     
+    // Layout if needed
     self.photo = _photo;
 }
 
@@ -98,11 +99,19 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     self.secondBtnText = [@"Cancel" uppercaseString];
     self.showSecondBtn = false;
     self.secondBtnTextColor = [UIColor whiteColor];
-    self.cancelViewPosition = SFCancelViewPositionBottom;
     self.contentViewType = SFContentViewTypeDefault;
     self.customView.hidden = true;
     self.defaultView.hidden = false;
+    
     self.size = CGSizeMake(270.0, 350.0);
+    
+    // Cancel arrow button resizing
+    [self.cancelArrowBtnBottom.titleLabel setAdjustsFontSizeToFitWidth:true];
+    [self.cancelArrowBtnBottom.titleLabel setLineBreakMode:NSLineBreakByClipping];
+    
+    // Initial close button image
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"SFDraggableDialogView" ofType:@"bundle"];
+    [_closeBtn setImage:[UIImage imageWithContentsOfFile:[[NSBundle bundleWithPath:bundlePath] pathForResource:@"icCross" ofType:@"png"]] forState:UIControlStateNormal];
 }
 
 - (void)dealloc {
@@ -110,74 +119,67 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 }
 
 - (void)showCancelArrow:(bool)show {
+    __weak typeof(self)weakSelf = self;
     if (show) {
         [UIView animateWithDuration:0.2 animations:^{
-            [self cancelViewAlpha:1.0];
+            [weakSelf cancelViewAlpha:1.0];
         }];
         
     } else {
         [UIView animateWithDuration:0.2 animations:^{
-            [self cancelViewAlpha:0.0];
+            [weakSelf cancelViewAlpha:0.0];
         }];
     }
 }
 
 - (void)cancelViewAlpha:(CGFloat)alpha {
-    if (_cancelViewPosition == SFCancelViewPositionTop) {
-        _cancelViewTop.alpha = alpha;
-        
-    } else {
-        _cancelViewBottom.alpha = alpha;
-    }
+    _cancelArrowImageViewTop.alpha = alpha;
+    _cancelViewBottom.alpha = alpha;
 }
 
-- (void)dismissWithFadeOut:(bool)fadeOut {
-    if (fadeOut) {
-        [UIView animateWithDuration:0.1 animations:^{
-            self.shadowView.transform = CGAffineTransformMakeScale(0.9, 0.9);
-            self.shadowView.alpha = 0.0;
-            
-        } completion:^(BOOL finished) {
-            [self dismiss];
-            
-            if ([self.delegate respondsToSelector:@selector(draggableDialogViewDismissed:)]) {
-                [self.delegate draggableDialogViewDismissed:self];
-            }
-        }];
-        
-    } else {
-        [self dismiss];
-        
-        if ([self.delegate respondsToSelector:@selector(draggableDialogViewDismissed:)]) {
-            [self.delegate draggableDialogViewDismissed:self];
-        }
+- (void)dismissWithDrop:(bool)drop {
+    [self dismissWithDrop:drop completion:nil];
+}
+
+- (void)dismissWithDrop:(bool)drop completion:(void (^)())completion {
+    if (drop) {
+        [self dropDown];
     }
     
+    [self showCancelArrow:false];
     [self showBlurView:false];
-}
-
-- (void)dismiss {
-    self.cancelArrowImageViewBottom.alpha = 0.0;
-    self.cancelArrowImageViewTop.alpha = 0.0;
-    self.cancelArrowLblBottom.alpha = 0.0;
-    self.cancelArrowLblTop.alpha = 0.0;
-    [UIView animateWithDuration:0.4 animations:^{
-        self.alpha = 0.0;
+    
+    __weak typeof(self)weakSelf = self;
+    [UIView animateWithDuration:0.15 delay:0.45 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        weakSelf.alpha = 0.0;
         
     } completion:^(BOOL finished) {
-        [self removeFromSuperview];
+        [weakSelf removeFromSuperview];
     }];
+    
+    if ([weakSelf.delegate respondsToSelector:@selector(draggableDialogViewWillDismiss:)]) {
+        [weakSelf.delegate draggableDialogViewWillDismiss:weakSelf];
+    }
+    
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if ([weakSelf.delegate respondsToSelector:@selector(draggableDialogViewDismissed:)]) {
+            [weakSelf.delegate draggableDialogViewDismissed:self];
+        }
+        
+        completion ? completion() : nil;
+    });
 }
 
 - (void)showBlurView:(bool)show {
     if (show) {
         [UIView animateWithDuration:0.1 animations:^{
-            self.backgroundImageView.alpha = 1.0;
+            self.backgroundImageBtn.alpha = 1.0;
         }];
         
     } else {
         [UIView animateWithDuration:0.4 animations:^{
-            self.backgroundImageView.alpha = 0.0;
+            self.backgroundImageBtn.alpha = 0.0;
         }];
     }
 }
@@ -291,26 +293,16 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
             
         }
         
-        if (_cancelViewPosition == SFCancelViewPositionBottom) {
-            if ([self calculateDirectionFromVelocity:velocity] != SFPanDirectionBottom) {
-                [self showCancelArrow:true];
-                UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem:gesture.view snapToPoint:startCenter];
-                [self.animator addBehavior:snap];
-                return;
-            }
-            
-        } else if (_cancelViewPosition == SFCancelViewPositionTop) {
-            if ([self calculateDirectionFromVelocity:velocity] != SFPanDirectionTop) {
-                [self showCancelArrow:true];
-                UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem:gesture.view snapToPoint:startCenter];
-                [self.animator addBehavior:snap];
-                return;
-            }
+        if ([self calculateDirectionFromVelocity:velocity] != 0 && [self calculateDirectionFromVelocity:velocity] != 1) {
+            [self showCancelArrow:true];
+            UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem:gesture.view snapToPoint:startCenter];
+            [self.animator addBehavior:snap];
+            return;
         }
         
         // Start dismissing
         self.shadowView.userInteractionEnabled = false;
-        [self dismissWithFadeOut:false];
+        [self dismissWithDrop:false];
         
         // Otherwise, create UIDynamicItemBehavior that carries on animation from where the gesture left off (notably linear and angular velocity)
         UIDynamicItemBehavior *dynamic = [[UIDynamicItemBehavior alloc] initWithItems:@[gesture.view]];
@@ -331,8 +323,16 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
         
         // Add a little gravity so it accelerates off the screen (in case user gesture was slow)
         UIGravityBehavior *gravity = [[UIGravityBehavior alloc] initWithItems:@[gesture.view]];
+        
         gravity.magnitude = 1.0;
+        // Push it down with vertical gravity
+        // gravity.gravityDirection = CGVectorMake(0.0, 20.0);
         [self.animator addBehavior:gravity];
+        
+        // Slower throw
+        UIDynamicItemBehavior *dynamicItemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.shadowView]];
+        dynamicItemBehavior.resistance = 2;
+        [self.animator addBehavior:dynamicItemBehavior];
     }
 }
 
@@ -355,27 +355,40 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     }
 }
 
-#pragma mark - Pop animation
-- (void)popAnimationForView:(UIView *)view withDuration:(CGFloat)duration {
-    view.transform = CGAffineTransformMakeScale(0.9, 0.9);
-    [UIView animateWithDuration:duration * 0.5 animations:^{
-        view.transform = CGAffineTransformMakeScale(1.1, 1.1);
-    }];
-    [UIView animateWithDuration:duration * 0.35 delay:duration * 0.5 options:UIViewAnimationOptionCurveLinear animations:^{
-        view.transform = CGAffineTransformMakeScale(0.9, 0.9);
+#pragma mark - Animations
+- (void)dropToCenter {
+    if (!self.shadowView) {
+        return;
+    }
+    
+    // Starts at the top
+    self.dialogViewBottomCns.constant = self.frame.size.height;
+    [self layoutIfNeeded];
+    
+    self.shadowView.transform = CGAffineTransformMakeScale(1.1, 1.1);
+    [UIView animateWithDuration:0.75 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.shadowView.transform = CGAffineTransformMakeScale(1.0, 1.0);
     } completion:nil];
-    [UIView animateWithDuration:duration * 0.15 delay:duration * 0.85 options:UIViewAnimationOptionCurveLinear animations:^{
-        view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    } completion:nil];
-    [UIView animateWithDuration:duration animations:^{
-        view.alpha = 1.0;
-    }];
+    
+    [self.animator removeAllBehaviors];
+    UISnapBehavior *snapBehaviour = [[UISnapBehavior alloc] initWithItem:self.shadowView snapToPoint:self.superview.center];
+    snapBehaviour.damping = 0.65;
+    [self.animator addBehavior:snapBehaviour];
 }
 
-- (void)pop {
-    [UIView animateWithDuration:0.2 animations:^{
-        [self popAnimationForView:self.shadowView withDuration:0.2];
-    }];
+- (void)dropDown {
+    if (!self.shadowView) {
+        return;
+    }
+    
+    [self.animator removeAllBehaviors];
+    CGFloat offsetY = 300.0;
+    UISnapBehavior *snapBehaviour = [[UISnapBehavior alloc] initWithItem:self.shadowView snapToPoint:CGPointMake(self.superview.center.x, self.superview.frame.size.height + (self.shadowView.frame.size.height / 2.0) + offsetY)];
+    [self.animator addBehavior:snapBehaviour];
+    
+    UIDynamicItemBehavior *dynamicItemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.shadowView]];
+    dynamicItemBehavior.resistance = 100000;
+    [self.animator addBehavior:dynamicItemBehavior];
 }
 
 #pragma mark - Setters
@@ -474,34 +487,15 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     [self.secondBtn setTitleColor:_secondBtnTextColor forState:UIControlStateNormal];
 }
 
-- (void)setCancelViewPosition:(SFCancelViewPosition)cancelViewPosition {
-    _cancelViewPosition = cancelViewPosition;
-    
-    if (!_cancelArrowText) {
-        _cancelViewBottom.hidden = true;
-        _cancelViewTop.hidden = true;
-        return;
-    }
-    
-    if (_cancelViewPosition == SFCancelViewPositionTop) {
-        _cancelViewBottom.hidden = true;
-        _cancelViewTop.hidden = false;
-        
-    } else {
-        _cancelViewTop.hidden = true;
-        _cancelViewBottom.hidden = false;
-    }
-}
-
 - (void)setContentViewType:(SFContentViewType)contentViewType {
     _contentViewType = contentViewType;
-    if (_contentViewType == SFContentViewTypeDefault) {
-        self.defaultView.hidden = false;
-        self.customView.hidden = true;
-        
-    } else {
+    if (_contentViewType == SFContentViewTypeCustom) {
         self.defaultView.hidden = true;
         self.customView.hidden = false;
+        
+    } else {
+        self.defaultView.hidden = false;
+        self.customView.hidden = true;
     }
 }
 
@@ -509,21 +503,23 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     _cancelArrowText = cancelArrowText;
     
     if (!cancelArrowText || cancelArrowText.length == 0) {
+        _cancelArrowImageViewTop.hidden = true;
         _cancelViewBottom.hidden = true;
-        _cancelViewTop.hidden = true;
         
     } else {
-        if (_cancelViewPosition == SFCancelViewPositionTop) {
-            _cancelViewBottom.hidden = true;
-            _cancelViewTop.hidden = false;
-            
-        } else {
-            _cancelViewTop.hidden = true;
-            _cancelViewBottom.hidden = false;
-        }
+        NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"SFDraggableDialogView" ofType:@"bundle"];
+        _cancelArrowImageViewTop.image = [UIImage imageWithContentsOfFile:[[NSBundle bundleWithPath:bundlePath] pathForResource:@"icArrowTop" ofType:@"png"]];
+        _cancelArrowImageViewBottom.image = [UIImage imageWithContentsOfFile:[[NSBundle bundleWithPath:bundlePath] pathForResource:@"icArrow" ofType:@"png"]];
+        _cancelArrowImageViewTop.hidden = false;
+        _cancelViewBottom.hidden = false;
+        
         [self cancelViewAlpha:1.0];
-        _cancelArrowLblBottom.attributedText = cancelArrowText;
-        _cancelArrowLblTop.attributedText = cancelArrowText;
+        
+        // Do not let system UIButton's title flicker
+        [UIView setAnimationsEnabled:false];
+        [_cancelArrowBtnBottom layoutIfNeeded];
+        [_cancelArrowBtnBottom setAttributedTitle:_cancelArrowText forState:UIControlStateNormal];
+        [UIView setAnimationsEnabled:true];
     }
 }
 
@@ -534,19 +530,23 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 }
 
 - (void)createBlurBackgroundWithImage:(UIImage *)backgroundImage tintColor:(UIColor *)tintColor blurRadius:(CGFloat)blurRadius {
-    self.backgroundImageView.image = [backgroundImage applyBlurWithRadius:blurRadius tintColor:tintColor saturationDeltaFactor:0.5 maskImage:nil];
+    [self.backgroundImageBtn setImage:[backgroundImage applyBlurWithRadius:blurRadius tintColor:tintColor saturationDeltaFactor:0.5 maskImage:nil] forState:UIControlStateNormal];
 }
 
 - (void)setShowSecondBtn:(bool)showSecondBtn {
     _showSecondBtn = showSecondBtn;
     
     if (showSecondBtn) {
-        self.customViewVerticalOffsetCns.constant = self.firstBtn.frame.size.height;
+        self.infoCustomViewViewVerticalOffsetCns.constant = self.firstBtn.frame.size.height;
+        self.gameOverCustomViewVerticalOffsetCns.constant = self.firstBtn.frame.size.height;
+        self.pauseCustomViewVerticalOffsetCns.constant = self.firstBtn.frame.size.height;
         self.defaultViewVerticalOffsetCns.constant = self.firstBtn.frame.size.height;
         self.secondBtn.hidden = false;
         
     } else {
-        self.customViewVerticalOffsetCns.constant = 0.0;
+        self.infoCustomViewViewVerticalOffsetCns.constant = 0.0;
+        self.gameOverCustomViewVerticalOffsetCns.constant = 0.0;
+        self.pauseCustomViewVerticalOffsetCns.constant = 0.0;
         self.defaultViewVerticalOffsetCns.constant = 0.0;
         self.secondBtn.hidden = true;
     }
@@ -571,7 +571,11 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 
 - (IBAction)closeBtnPressed:(id)sender {
     [self showCancelArrow:false];
-    [self dismissWithFadeOut:true];
+    [self dismissWithDrop:true];
+}
+
+- (IBAction)backgroundImageBtnPressed:(id)sender {
+    [self dismissWithDrop:true];
 }
 
 - (IBAction)firstBtnTouchDownEvent:(id)sender {
@@ -580,6 +584,39 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 
 - (IBAction)secondBtnTouchDownEvent:(id)sender {
     [self highlight:true btn:self.secondBtn];
+}
+
+- (IBAction)arrowBtnPressed:(id)sender {
+    [self dismissWithDrop:true];
+}
+
+- (IBAction)arrowBtnTouchDown:(id)sender {
+    self.cancelArrowImageViewBottom.alpha = 0.2;
+    self.cancelArrowImageViewTop.alpha = 0.2;
+}
+
+- (IBAction)arrowBtnTouchCanceled:(id)sender {
+    __weak typeof(self)weakSelf = self;
+    [UIView animateWithDuration:0.2 animations:^{
+        weakSelf.cancelArrowImageViewBottom.alpha = 1.0;
+        weakSelf.cancelArrowImageViewTop.alpha = 1.0;
+    }];
+}
+
+- (IBAction)arrowBtnTouchDragInside:(id)sender {
+    __weak typeof(self)weakSelf = self;
+    [UIView animateWithDuration:0.2 animations:^{
+        weakSelf.cancelArrowImageViewBottom.alpha = 0.2;
+        weakSelf.cancelArrowImageViewTop.alpha = 0.2;
+    }];
+}
+
+- (IBAction)arrowBtnTouchDragOutside:(id)sender {
+    __weak typeof(self)weakSelf = self;
+    [UIView animateWithDuration:0.2 animations:^{
+        weakSelf.cancelArrowImageViewBottom.alpha = 1.0;
+        weakSelf.cancelArrowImageViewTop.alpha = 1.0;
+    }];
 }
 
 @end

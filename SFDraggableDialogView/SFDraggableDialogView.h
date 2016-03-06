@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class SFDraggableDialogView;
 
 @protocol SFDraggableDialogViewDelegate <NSObject>
@@ -49,12 +50,14 @@
  */
 - (void)draggableDialogViewDismissed:(SFDraggableDialogView *)dialogView;
 
-@end
+/**
+ *  Dialog view will be dismissed by dragging out of the screen or by pressed close button.
+ *
+ *  @param dialogView Dialog view within the dialog will be dismissed.
+ */
+- (void)draggableDialogViewWillDismiss:(SFDraggableDialogView *)dialogView;
 
-typedef NS_ENUM(NSInteger, SFCancelViewPosition) {
-    SFCancelViewPositionTop = 0,
-    SFCancelViewPositionBottom
-};
+@end
 
 typedef NS_ENUM(NSInteger, SFContentViewType) {
     SFContentViewTypeDefault = 0,
@@ -156,11 +159,6 @@ typedef NS_ENUM(NSInteger, SFContentViewType) {
 @property (nonatomic, strong) UIImage *cancelArrowImage;
 
 /**
- *  The position of the cancel view and the direction in which the view can be dismissed by dragging. DEFAULT is Bottom.
- */
-@property (nonatomic, assign) SFCancelViewPosition cancelViewPosition;
-
-/**
  *  The visible content view. Custom is blank, default has image and two labels. DEFAULT is Default.
  */
 @property (nonatomic, assign) SFContentViewType contentViewType;
@@ -188,11 +186,24 @@ typedef NS_ENUM(NSInteger, SFContentViewType) {
 @property (nonatomic, assign) id<SFDraggableDialogViewDelegate> delegate;
 
 /**
+ *  Background image button view reference. Should be use only for a subview adding.
+ */
+@property (weak, nonatomic) IBOutlet UIButton *backgroundImageBtn;
+
+/**
  *  Dismiss the dialog view.
  *
- *  @param fadeOut Fade out animation.
+ *  @param drop Drop down movement
  */
-- (void)dismissWithFadeOut:(bool)fadeOut;
+- (void)dismissWithDrop:(bool)drop;
+
+/**
+ *  Dismiss the dialog view.
+ *
+ *  @param drop Drop down movement
+ *  @param completion Completion block.
+ */
+- (void)dismissWithDrop:(bool)drop completion:(void (^)())completion;
 
 /**
  *  Create the background image view that will be placed behind the dialog view.
