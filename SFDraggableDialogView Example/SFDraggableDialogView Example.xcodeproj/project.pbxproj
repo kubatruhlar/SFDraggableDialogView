@@ -119,9 +119,9 @@
 		3BFEB79D1C1A390C0003BD0D /* SFDraggableDialogView */ = {
 			isa = PBXGroup;
 			children = (
+				3BB89FBF1C8CE81D00C70E00 /* Resources */,
 				3BB89FCE1C8CEB1C00C70E00 /* UIImage+ImageEffects.h */,
 				3BB89FCF1C8CEB1C00C70E00 /* UIImage+ImageEffects.m */,
-				3BB89FBF1C8CE81D00C70E00 /* Resources */,
 				3BFEB79E1C1A39160003BD0D /* SFDraggableDialogView.h */,
 				3BFEB79F1C1A39160003BD0D /* SFDraggableDialogView.m */,
 				3BFEB7A11C1A39220003BD0D /* SFDraggableDialogView.xib */,
