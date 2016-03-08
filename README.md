@@ -10,6 +10,8 @@ Display the beautiful dialog view with **realistic physics behavior** (thanks to
 </h3>
 
 ## Installation
+**Since pod version 1.1.4 the pod is not broken anymore! Assets and xib are generated.**
+
 There are two ways to add the **SFDraggableDialogView** library to your project. Add it as a regular library or install it through **CocoaPods**.
 
 `pod 'SFDraggableDialogView'`
@@ -20,7 +22,7 @@ You may also quick try the example project with
 
 **Library requires target iOS 8 and above**
 
-## Usage
+## Usage *(Mind that some parts of the example code could be from my other libraries etc.)*
 ```objective-c
     SFDraggableDialogView *dialogView = [[[NSBundle mainBundle] loadNibNamed:@"SFDraggableDialogView" owner:self options:nil] firstObject];
     dialogView.frame = self.view.bounds;
