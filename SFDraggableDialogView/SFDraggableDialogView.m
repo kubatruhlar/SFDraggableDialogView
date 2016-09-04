@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
 // Constraints
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dialogViewHeightCns;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dialogViewWidthCns;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *dialogViewBottomCns;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *dialogViewCenterYCns;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *infoCustomViewViewVerticalOffsetCns;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *gameOverCustomViewVerticalOffsetCns;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *pauseCustomViewVerticalOffsetCns;
@@ -240,6 +240,9 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
         // UIDynamics handle
         [self.animator removeAllBehaviors];
         
+        self.dialogViewCenterYCns.constant = 0.f;
+        [self layoutIfNeeded];
+        
         startCenter = gesture.view.center;
         
         // Calculate the center offset and anchor point
@@ -362,7 +365,7 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     }
     
     // Starts at the top
-    self.dialogViewBottomCns.constant = self.frame.size.height;
+    self.dialogViewCenterYCns.constant = -(self.frame.size.height/2)-(self.shadowView.frame.size.height/2);
     [self layoutIfNeeded];
     
     self.shadowView.transform = CGAffineTransformMakeScale(1.1, 1.1);
@@ -396,6 +399,7 @@ typedef NS_ENUM(NSInteger, SFPanDirection) {
     _size = size;
     self.dialogViewWidthCns.constant = size.width;
     self.dialogViewHeightCns.constant = size.height;
+    [self layoutIfNeeded];
 }
 
 - (void)setCloseBtnImage:(UIImage *)closeBtnImage {
