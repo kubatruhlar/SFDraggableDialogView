@@ -6,7 +6,7 @@
 Display the beautiful dialog view with **realistic physics behavior** (thanks to UIkit Dynamics) with **drag to dismiss** feature.
 
 <h3 align="center">
-  <img src="https://github.com/kubatru/SFDraggableDialogView/blob/master/Screens/example.gif" alt="Example" height="400"/>
+  <img src="https://github.com/kubatruhlar/SFDraggableDialogView/blob/master/Screens/example.gif" alt="Example" height="400"/>
 </h3>
 
 ## Installation
